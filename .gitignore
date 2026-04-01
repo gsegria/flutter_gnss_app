@@ -1,0 +1,41 @@
+# Flutter / Dart Build
+/build/
+.dart_tool/
+.packages
+.pub-cache/
+.flutter-plugins
+.flutter-plugins-dependencies
+.generated/
+
+# Android Studio / IntelliJ
+*.iml
+.idea/
+.gradle/
+local.properties
+
+# VS Code
+.vscode/
+
+# iOS
+ios/Flutter/Flutter.podspec
+ios/Pods/
+ios/.symlinks/
+ios/Flutter/Flutter.framework
+ios/Flutter/Flutter.xcframework
+ios/Runner.xcworkspace/
+ios/Flutter/App.framework
+ios/Flutter/FlutterPluginRegistrant/
+
+# macOS
+.DS_Store
+
+# Log / temp files
+*.log
+*.tmp
+*.swp
+
+# Assets that may be generated
+assets/generated/
+
+# Optional: lock files
+pubspec.lock
