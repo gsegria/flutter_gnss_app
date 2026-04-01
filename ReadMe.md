@@ -1,5 +1,14 @@
 
 
+# Flutter GNSS App
+
+跨平台 Flutter GNSS 應用，支援即時定位、航跡記錄、日誌匯出及高精度模組接入。
+
+---
+
+## 專案結構
+
+```text
 /flutter_gnss_app
 │
 ├─ lib/
@@ -12,49 +21,60 @@
 │   │    └─ gnss_service.dart   # GNSS 資料流管理，LocationModel 實時更新
 │   │
 │   ├─ models/              # 資料模型 (Model)
-│   │    └─ location_model.dart  # 定位資料結構 (latitude, longitude, altitude, speed, timestamp)
+│   │    └─ location_model.dart  # 定位資料結構
 │   │
 │   ├─ utils/               # 工具函數 (Utilities)
 │   │    └─ gpx_kml_utils.dart   # GPX / KML 匯出, 日期時間格式化
 │   │
 │   └─ main.dart            # App 主入口，TabBar 控制三個頁面
 │
-├─ android/                 # Android 原生模板 (GNSS / NMEA 可擴展)
-├─ ios/                     # iOS 原生模板 (GNSS / NMEA 可擴展)
+├─ android/                 # Android 原生模板
+├─ ios/                     # iOS 原生模板
 ├─ assets/                  # 圖標、地圖資源
 └─ pubspec.yaml             # 套件定義、資源聲明
 
 
-lib/main.dart → App 主入口，TabBar 控制三個頁面
-lib/ui/map_screen.dart → 地圖導航、航跡繪製
-lib/ui/track_screen.dart → 航跡列表
-lib/ui/log_screen.dart → 日誌列表與 CSV 匯出
-lib/services/gnss_service.dart → GNSS 資料流管理，實時 LocationModel
-lib/models/location_model.dart → 定位資料模型
-pubspec.yaml → 已定義 Flutter、地圖、地理定位、CSV、文件儲存套件
-assets/ → 可放圖標或自訂資源
-Android / iOS 目錄 → Flutter 自動生成原生模板即可
+
+核心檔案說明
+| 檔案                             | 功能                             |
+| ------------------------------ | ------------------------------ |
+| lib/main.dart                  | App 主入口，TabBar 控制三個頁面          |
+| lib/ui/map_screen.dart         | 地圖導航、航跡繪製                      |
+| lib/ui/track_screen.dart       | 航跡列表                           |
+| lib/ui/log_screen.dart         | 日誌列表與 CSV 匯出                   |
+| lib/services/gnss_service.dart | GNSS 資料流管理，實時 LocationModel    |
+| lib/models/location_model.dart | 定位資料模型                         |
+| pubspec.yaml                   | 已定義 Flutter、地圖、地理定位、CSV、文件儲存套件 |
+| assets/                        | 可放圖標或自訂資源                      |
+| android/ / ios/                | Flutter 自動生成原生模板               |
 
 
 =============================================================
+todo:
+
 1️⃣ 地圖 API Key
 
-你用的是 google_maps_flutter，所以必須有 Google Maps API Key。
+使用 google_maps_flutter，必須有 Google Maps API Key：
 
 Android
+
 到 Google Cloud Console
  建立專案
 啟用 Maps SDK for Android
 生成 API Key
 編輯 android/app/src/main/AndroidManifest.xml，加入：
-
+<meta-data
+    android:name="com.google.android.geo.API_KEY"
+    android:value="YOUR_API_KEY_HERE"/>
 2️⃣ 權限設定
 
-GNSS App 需要讀取位置，還可能需要背景定位。
+GNSS App 需要讀取位置，可能需要背景定位：
 
 Android
 
-編輯 android/app/src/main/AndroidManifest.xml，加入：
+<uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
+<uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
 
 =============================================================
 
