@@ -1,0 +1,16 @@
+ which adb
+adb devices
+/usr/bin/adb
+List of devices attached
+c5359e70        device
+
+ping@rock-5b-plus:~/Android/Sdk/cmdline-tools$ cd ~/proj/GNSS/flutter_gnss_app
+flutter devices
+Found 1 connected device:
+  Linux (desktop) • linux • linux-arm64 • Debian GNU/Linux 12 (bookworm) 6.1.84-8-rk2410
+
+Run "flutter emulators" to list and start any available device emulators.
+
+If you expected another device to be detected, please run "flutter doctor" to diagnose potential issues. You
+may also try increasing the time to wait for connected devices with the "--device-timeout" flag. Visit
+https://flutter.dev/setup/ for troubleshooting tips.

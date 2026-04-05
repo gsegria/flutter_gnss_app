@@ -1,3 +1,6 @@
+// lib/ui/log_screen.dart
+// class LogScreen
+
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:path_provider/path_provider.dart';
@@ -11,12 +14,14 @@ class LogScreen extends StatefulWidget {
 }
 
 class _LogScreenState extends State<LogScreen> {
-  final GnssService _gnssService = GnssService();
+  // 使用 singleton
+  final GnssService _gnssService = GnssService.instance;
   final List<LocationModel> _logs = [];
 
   @override
   void initState() {
     super.initState();
+    // 訂閱 GNSS 實時資料
     _gnssService.locationStream.listen((loc) {
       setState(() {
         _logs.add(loc);
@@ -24,22 +29,29 @@ class _LogScreenState extends State<LogScreen> {
     });
   }
 
+  // 匯出 CSV
   Future<void> _exportCsv() async {
+    if (_logs.isEmpty) return;
+
     final directory = await getApplicationDocumentsDirectory();
     final path = '${directory.path}/gnss_log.csv';
+
     List<List<dynamic>> rows = [
       ['Latitude', 'Longitude', 'Altitude', 'Speed', 'Timestamp']
     ];
+
     rows.addAll(_logs.map((l) => [
           l.latitude,
           l.longitude,
           l.altitude,
           l.speed,
-          l.timestamp.toIso8601String()
+          l.timestamp.toIso8601String(),
         ]));
+
     String csvData = const ListToCsvConverter().convert(rows);
     final file = File(path);
     await file.writeAsString(csvData);
+
     ScaffoldMessenger.of(context)
         .showSnackBar(SnackBar(content: Text('Log exported: $path')));
   }
@@ -48,8 +60,14 @@ class _LogScreenState extends State<LogScreen> {
   Widget build(BuildContext context) {
     return Column(
       children: [
-        ElevatedButton(
-            onPressed: _exportCsv, child: Text('Export CSV')),
+        Padding(
+          padding: const EdgeInsets.all(8.0),
+          child: ElevatedButton.icon(
+            icon: const Icon(Icons.download),
+            label: const Text('Export CSV'),
+            onPressed: _logs.isEmpty ? null : _exportCsv,
+          ),
+        ),
         Expanded(
           child: ListView.builder(
             itemCount: _logs.length,
@@ -57,9 +75,9 @@ class _LogScreenState extends State<LogScreen> {
               final loc = _logs[index];
               return ListTile(
                 title: Text(
-                    "Lat: ${loc.latitude}, Lng: ${loc.longitude}"),
+                    "Lat: ${loc.latitude.toStringAsFixed(6)}, Lng: ${loc.longitude.toStringAsFixed(6)}"),
                 subtitle: Text(
-                    "Alt: ${loc.altitude}m, Speed: ${loc.speed}m/s, Time: ${loc.timestamp}"),
+                    "Alt: ${loc.altitude.toStringAsFixed(2)} m, Speed: ${loc.speed.toStringAsFixed(2)} m/s\nTime: ${loc.timestamp}"),
               );
             },
           ),
@@ -70,7 +88,7 @@ class _LogScreenState extends State<LogScreen> {
 
   @override
   void dispose() {
-    _gnssService.dispose();
+    // 不要 dispose singleton
     super.dispose();
   }
 }

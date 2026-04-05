@@ -4,6 +4,13 @@
 
 跨平台 Flutter GNSS 應用，支援即時定位、航跡記錄、日誌匯出及高精度模組接入。
 
+
+## run
+flutter devices
+adb devices
+
+
+
 ---
 
 ## 專案結構
@@ -75,6 +82,21 @@ Android
 <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>
 <uses-permission android:name="android.permission.ACCESS_BACKGROUND_LOCATION"/>
+
+==================
+android app 運行
+
+明白，你想在 Rock 5B+ 上開發和運行 Android App。因為 Rock 5B+ 是 ARM64 Linux，所以這裡有幾個關鍵點需要注意：
+
+1️⃣ 安裝 Android SDK / Build Tools
+
+Flutter 需要：
+
+Android SDK 36
+Build Tools 28.0.3
+Platform Tools（adb、fastboot 等
+
+
 
 =============================================================
 
