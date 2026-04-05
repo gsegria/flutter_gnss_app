@@ -1,5 +1,12 @@
 # flutter_gnss_app
 
+flutter devices
+flutter doctor -v
+flutter run -d 
+
+
+
+
 A new Flutter project.
 
 ## Getting Started
